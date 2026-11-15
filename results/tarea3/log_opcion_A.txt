@@ -1,0 +1,86 @@
+=== TAREA 3 - OPCION A (factorial completo 3x3, 10 replicas = 90 corridas) ===
+matricula (semilla) = 2118805   ->   r = 0.152640
+Rango de temperatura [T_min, T_max] = [0.05, 12.0]   |   iteraciones SA = 100   |   T final fija = 0.01
+Niveles (fraccion -> temperatura real):
+   bajo        fraccion = 0.0458   T = 0.5972
+   medio       fraccion = 0.3458   T = 4.1822
+   alto        fraccion = 0.6458   T = 7.7672
+Optimo exacto de cada instancia (Held-Karp, solo referencia): n=5: 16.47, n=10: 27.61, n=15: 33.97
+
+ANOVA de dos factores: costo ~ temperatura * tamano   (alpha = 0.05)
+                        sum_sq    df          F  PR(>F)  eta2_parcial
+C(nivel)               38.1787   2.0     4.8267  0.0105        0.1065
+C(tamano)           10551.8953   2.0  1334.0187  0.0000        0.9705
+C(nivel):C(tamano)     47.8499   4.0     3.0247  0.0223        0.1300
+Residual              320.3491  81.0        NaN     NaN        0.5000
+
+  temperatura: p = 0.01046 -> SIGNIFICATIVO
+  tamano:      p = 1.016e-62 -> SIGNIFICATIVO
+  interaccion: p = 0.02229 -> SIGNIFICATIVO
+
+  Supuestos: Shapiro-Wilk de residuos p = 1.716e-07 | Levene (9 celdas) p = 0.0001084
+  (si son < 0.05 el ANOVA es solo aproximado; por eso se refuerza con bootstrap, que no exige normalidad)
+
+ANOVA complementario con costo/optimo (quita el efecto de escala entre tamanos):
+                    sum_sq    df         F  PR(>F)
+C(nivel)            0.0355   2.0    4.8206  0.0105
+C(tamano)           1.2111   2.0  164.6228  0.0000
+C(nivel):C(tamano)  0.0414   4.0    2.8153  0.0305
+Residual            0.2980  81.0       NaN     NaN
+
+--- Analisis por tamano ---
+
+n = 5
+  ANOVA de un factor (temperatura): F = 1.125, p = 0.3394 -> no significativo
+  Tukey HSD:
+    Multiple Comparison of Means - Tukey HSD, FWER=0.05
+    ===================================================
+    group1 group2 meandiff p-adj   lower  upper  reject
+    ---------------------------------------------------
+      alto   bajo      0.0    1.0 -0.1726 0.1726  False
+      alto  medio  -0.0904 0.4079 -0.2631 0.0822  False
+      bajo  medio  -0.0904 0.4079 -0.2631 0.0822  False
+    ---------------------------------------------------
+  bajo   T = 0.597   mediana bootstrap = 16.4736   IC95% = [16.4736, 16.6997]
+  medio  T = 4.182   mediana bootstrap = 16.4736   IC95% = [16.4736, 16.4736]
+  alto   T = 7.767   mediana bootstrap = 16.4736   IC95% = [16.4736, 16.6997]
+  => mejor nivel: bajo (T = 0.597). Diferencias no significativas; se elige la de menor mediana
+
+n = 10
+  ANOVA de un factor (temperatura): F = 1.598, p = 0.2208 -> no significativo
+  Tukey HSD:
+    Multiple Comparison of Means - Tukey HSD, FWER=0.05
+    ===================================================
+    group1 group2 meandiff p-adj   lower  upper  reject
+    ---------------------------------------------------
+      alto   bajo  -0.9472 0.2214  -2.324 0.4295  False
+      alto  medio  -0.7308 0.3987 -2.1075 0.6459  False
+      bajo  medio   0.2164 0.9199 -1.1603 1.5931  False
+    ---------------------------------------------------
+  bajo   T = 0.597   mediana bootstrap = 28.3246   IC95% = [27.6084, 28.8170]
+  medio  T = 4.182   mediana bootstrap = 28.3643   IC95% = [27.7623, 29.2647]
+  alto   T = 7.767   mediana bootstrap = 28.4873   IC95% = [28.0455, 30.4719]
+  => mejor nivel: bajo (T = 0.597). Diferencias no significativas; se elige la de menor mediana
+
+n = 15
+  ANOVA de un factor (temperatura): F = 3.935, p = 0.03165 -> significativo
+  Tukey HSD:
+    Multiple Comparison of Means - Tukey HSD, FWER=0.05 
+    ====================================================
+    group1 group2 meandiff p-adj   lower   upper  reject
+    ----------------------------------------------------
+      alto   bajo  -3.6743  0.042 -7.2328 -0.1159   True
+      alto  medio  -0.4118 0.9557 -3.9703  3.1467  False
+      bajo  medio   3.2625  0.077 -0.2959   6.821  False
+    ----------------------------------------------------
+  bajo   T = 0.597   mediana bootstrap = 41.2722   IC95% = [37.7170, 42.4563]
+  medio  T = 4.182   mediana bootstrap = 43.2231   IC95% = [42.1152, 45.0246]
+  alto   T = 7.767   mediana bootstrap = 44.9495   IC95% = [42.0554, 46.6657]
+  => mejor nivel: bajo (T = 0.597). Significativo, pero su IC se traslapa con: medio, alto
+
+TABLA RESUMEN (Opcion A)
+| n | Mejor T (nivel) | Mediana bootstrap | IC 95% | p (ANOVA por tamano) | Conclusion |
+|---|---|---|---|---|---|
+| 5 | 0.597 (bajo) | 16.4736 | [16.4736, 16.6997] | 0.3394 | Diferencias no significativas; se elige la de menor mediana |
+| 10 | 0.597 (bajo) | 28.3246 | [27.6084, 28.8170] | 0.2208 | Diferencias no significativas; se elige la de menor mediana |
+| 15 | 0.597 (bajo) | 41.2722 | [37.7170, 42.4563] | 0.03165 | Significativo, pero su IC se traslapa con: medio, alto |

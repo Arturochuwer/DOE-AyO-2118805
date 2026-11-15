@@ -1,0 +1,53 @@
+=== TAREA 3 - OPCION B (RSM, 5 niveles, replicas 5/5/10/5/5 = 30 corridas por tamano) ===
+matricula (semilla) = 2118805   ->   r = 0.152640
+Rango de temperatura [T_min, T_max] = [0.05, 12.0]   |   iteraciones SA = 100   |   T final fija = 0.01
+Niveles (fraccion -> temperatura real):
+   axial bajo  fraccion = 0.0305   T = 0.4148
+   bajo        fraccion = 0.2305   T = 2.8048
+   centro      fraccion = 0.4305   T = 5.1948
+   alto        fraccion = 0.6305   T = 7.5848
+   axial alto  fraccion = 0.8305   T = 9.9748
+Optimo exacto de cada instancia (Held-Karp, solo referencia): n=5: 16.47, n=10: 27.61, n=15: 33.97
+
+--- n = 5 (instancia con optimo exacto 16.4736) ---
+  axial bajo  T = 0.415   mediana bootstrap = 16.4736   IC95% = [16.4736, 16.4736]
+  bajo        T = 2.805   mediana bootstrap = 16.4736   IC95% = [16.4736, 16.4736]
+  centro      T = 5.195   mediana bootstrap = 16.4736   IC95% = [16.4736, 16.4736]
+  alto        T = 7.585   mediana bootstrap = 16.4736   IC95% = [16.4736, 16.9258]
+  axial alto  T = 9.975   mediana bootstrap = 16.4736   IC95% = [16.4736, 16.4736]
+  Modelo: Costo = 16.4469 + 0.0259*T + -0.0021*T^2     R^2 = 0.044
+  p(beta2) = 0.3382 -> curvatura no significativa;   ANOVA de regresion: F = 0.627, p = 0.5419
+  Falta de ajuste: F = 0.617, p = 0.5478 -> modelo cuadratico describe bien los datos
+  beta2 <= 0: no hay minimo interior; el menor costo ajustado esta en el extremo T = 0.415
+  Mejor nivel observado: axial bajo (T = 0.415), mediana bootstrap = 16.4736 IC95% [16.4736, 16.4736]; IC traslapado con bajo, centro, alto, axial alto
+
+--- n = 10 (instancia con optimo exacto 27.6084) ---
+  axial bajo  T = 0.415   mediana bootstrap = 28.2987   IC95% = [27.6084, 29.0244]
+  bajo        T = 2.805   mediana bootstrap = 27.7623   IC95% = [27.6084, 28.6096]
+  centro      T = 5.195   mediana bootstrap = 28.3715   IC95% = [27.9407, 28.8975]
+  alto        T = 7.585   mediana bootstrap = 28.6096   IC95% = [27.6084, 32.4063]
+  axial alto  T = 9.975   mediana bootstrap = 28.1844   IC95% = [27.6084, 29.1071]
+  Modelo: Costo = 27.9960 + 0.1842*T + -0.0137*T^2     R^2 = 0.035
+  p(beta2) = 0.4851 -> curvatura no significativa;   ANOVA de regresion: F = 0.493, p = 0.6161
+  Falta de ajuste: F = 1.659, p = 0.2105 -> modelo cuadratico describe bien los datos
+  beta2 <= 0: no hay minimo interior; el menor costo ajustado esta en el extremo T = 0.415
+  Mejor nivel observado: bajo (T = 2.805), mediana bootstrap = 27.7623 IC95% [27.6084, 28.6096]; IC traslapado con axial bajo, centro, alto, axial alto
+
+--- n = 15 (instancia con optimo exacto 33.9719) ---
+  axial bajo  T = 0.415   mediana bootstrap = 41.8771   IC95% = [37.7170, 43.3315]
+  bajo        T = 2.805   mediana bootstrap = 45.0925   IC95% = [41.1484, 52.5080]
+  centro      T = 5.195   mediana bootstrap = 45.3476   IC95% = [39.9633, 48.3719]
+  alto        T = 7.585   mediana bootstrap = 43.0077   IC95% = [38.4113, 53.7936]
+  axial alto  T = 9.975   mediana bootstrap = 44.4346   IC95% = [35.9229, 46.9151]
+  Modelo: Costo = 41.2034 + 1.5044*T + -0.1447*T^2     R^2 = 0.098
+  p(beta2) = 0.09786 -> curvatura no significativa;   ANOVA de regresion: F = 1.470, p = 0.2477
+  Falta de ajuste: F = 0.247, p = 0.7834 -> modelo cuadratico describe bien los datos
+  beta2 <= 0: no hay minimo interior; el menor costo ajustado esta en el extremo T = 0.415
+  Mejor nivel observado: axial bajo (T = 0.415), mediana bootstrap = 41.8771 IC95% [37.7170, 43.3315]; IC traslapado con bajo, centro, alto, axial alto
+
+TABLA RESUMEN (Opcion B)
+| n | T* (ajuste) | T recomendada | p(beta2) | p(falta de ajuste) | Mejor nivel observado | Mediana bootstrap | IC 95% | Nota |
+|---|---|---|---|---|---|---|---|---|
+| 5 | n/a | 0.415 | 0.3382 | 0.5478 | axial bajo (T=0.415) | 16.4736 | [16.4736, 16.4736] | Curvatura NO significativa (T* poco confiable) |
+| 10 | n/a | 0.415 | 0.4851 | 0.2105 | bajo (T=2.805) | 27.7623 | [27.6084, 28.6096] | Curvatura NO significativa (T* poco confiable) |
+| 15 | n/a | 0.415 | 0.09786 | 0.7834 | axial bajo (T=0.415) | 41.8771 | [37.7170, 43.3315] | Curvatura NO significativa (T* poco confiable) |
